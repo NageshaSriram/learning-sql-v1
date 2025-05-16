@@ -70,7 +70,11 @@ create table students (
     is_active tinyint(1) default 1
 );
 
+-- selecting current user
 select current_user();
+
+-- Select cuurent date
+select current_date();
 
 
 
