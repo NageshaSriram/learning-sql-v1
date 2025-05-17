@@ -67,7 +67,8 @@ create table students (
     age int,
     email varchar(100) unique,
     enrolled_date date,
-    is_active tinyint(1) default 1
+    is_active tinyint(1) default 1,
+    join_date DATE default current_timestamp
 );
 
 -- selecting current user
