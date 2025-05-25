@@ -54,12 +54,12 @@ select min(hire_date), max(hire_date) from employees;
 
 -- 13. Write a query to display the no. of weeks the employee has been employed for all employees in department 90
 -- select ceil((datediff('2000-04-21', '1987-06-17') / 365)* 52); 
-
+select *, round(datediff(curdate(), hire_date)/7) from employees where department_id = 90;
 select *, round(datediff(curdate(), hire_date) / 7) as weeks from employees where department_id = 90;
 -- 14.Write a query to display hire date, date after 100 days of joining and date before 1 Month of joining for those belong  department id 90
 
 select hire_date, adddate(hire_date, interval 100 day) as after100,
-subdate(hire_date, interval 1 month) as before1 from employees;
+subdate(hire_date, interval 1 month) as before1, adddate(hire_date, interval -1 month) from employees;
 -- 15.Write a query to display salay, and sal_grade as ‘Good’ if salary >15000 other wise ‘Bad’
 
 select salary, if(salary>15000, 'Good', 'Bad') from employees;
@@ -68,7 +68,10 @@ select salary, if(salary>15000, 'Good', 'Bad') from employees;
 
 select coalesce(commission_pct, 0) from employees;
 
--- no. employees greater than 20
+
+select employee_id, department_id, salary, coalesce(commission_pct, 0) from employees where department_id = 90;
+
+-- no. employees greater than 20 in a department
 
 select department_id, count(*) from employees GROUP BY department_id having count(*) > 20; -- having for filtering group by
  
@@ -99,9 +102,10 @@ select department_id,sum(salary), count(*) from employees where department_id in
 
 select year(hire_date), count(*) as number_of_employees from employees group by year(hire_date);
 
+select year(hire_date), month(hire_date), count(*) from employees group by year(hire_date), month(hire_date) order by year(hire_date), month(hire_date);
 # Question 7: sort and group  the employees based on year and month wise with count of
 # employees 
-select year(hire_date), month(hire_date), count(*) from employees group by year(hire_date), month(hire_date) ORDER BY year(hire_date), month(hire_date);
+select year(hire_date), month(hire_date), count(*) from employees group by year(hire_date), month(hire_date) ORDER BY year(hire_date), month(hire_date); # order by should be at the end
 
 
 # Question 8: display the department id, number of employees of those groups that have 
@@ -110,6 +114,8 @@ select year(hire_date), month(hire_date), count(*) from employees group by year(
 select department_id, count(*) from employees GROUP BY department_id having count(*) > 2;
 
 select department_id, count(*) as emp_count from employees GROUP BY department_id having emp_count > 2;
+
+# select department_id, count(*) as employee_count from employees GROUP BY department_id having employee_count > 2;
 
 # Question 9:  display the departments which has sum of salary greater than 35000
 select department_id, sum(salary) from employees GROUP BY department_id having sum(salary) > 35000;
@@ -136,6 +142,14 @@ from employees;
 -- categorize employees based on their year of service <365 as less than 1 yr,
 # <730 as 1-2 yrs <1095 as 2-3 yrs else more than 3 yrs 
 -- consider todays date as 2000-12-31.
+
+select hire_date, case
+	when datediff('2000-12-31', hire_date) < 365 then 'less than 1 yr'
+    when datediff('2000-12-31', hire_date) < 730 then '1-2 yrs'
+    when datediff('2000-12-31', hire_date) < 1095 then '2-3 years'
+    else 'more than 3 yrs'
+    end as experience
+    from employees;
 
 select hire_date, case
 	when datediff('2000-12-31', hire_date) < 365 then 'less than 1 yr'
