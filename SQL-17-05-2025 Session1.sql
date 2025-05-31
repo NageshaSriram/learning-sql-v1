@@ -236,4 +236,6 @@ drop table csestudet;
 
 rename table student to student_new;
 
+-- can use desc/describe to get table details
+
  
