@@ -74,3 +74,6 @@ insert into example1 values(1, "sam", 9000, "blr", 19);
 insert into example1 values(2, "sam", 9000, "blr", 19);
 insert into example1 values(1, "samy", null, "blr", 19);
 insert into example1(stuid, stuname, phone, age) values(2, "John", 4555, 19);
+
+
+-- ON DELETE RESTRICT ON UPDATE RESTRICT same as No Action
